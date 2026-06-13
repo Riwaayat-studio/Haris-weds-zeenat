@@ -1,4 +1,4 @@
-// ── GLOBALLY INDEPENDENT OPEN ENVELOPE FUNCTION
+// ── GLOBALLY INDEPENDENT OPEN ENVELOPE FUNCTION WITH MUSIC INITIATION
 let opened = false;
 function openEnvelope() {
     if (opened) return; 
@@ -14,6 +14,13 @@ function openEnvelope() {
         if (envScreen) envScreen.classList.add('gone');
         if (mainContent) mainContent.classList.add('visible');
         initAudio();
+        // Play drive music automatically on opening gesture
+        const audioTrack = document.getElementById('bgMusic');
+        if (audioTrack) {
+            audioTrack.play().catch(() => {
+                console.log("Audio gesture delay handled smoothly.");
+            });
+        }
     }, 1500);
 }
 
@@ -129,8 +136,6 @@ function playTick() {
         o.start(actx.currentTime); o.stop(actx.currentTime + .09);
     } catch (e) { }
 }
-document.addEventListener('click', initAudio, { once: true });
-document.addEventListener('touchstart', initAudio, { once: true });
 
 // ── SYNCHRONIZED MINARET COUNTDOWN ENGINE
 let prevSec = -1;
@@ -185,7 +190,7 @@ const ro = new IntersectionObserver(entries => {
 document.querySelectorAll('.rev,.ev-item').forEach(el => ro.observe(el));
 document.querySelectorAll('.ev-item').forEach((el, i) => { el.style.transitionDelay = `${i * .14}s`; });
 
-// ── RSVP DATA HANDLER
+// ── RSVP DATA DISTRIBUTOR PIPELINE
 let attChoice = '';
 function setAtt(v) {
     attChoice = v;
@@ -196,22 +201,51 @@ function setAtt(v) {
 }
 
 function submitRSVP() {
-    const n = document.getElementById('r-name').value.trim();
-    if (!n) { document.getElementById('r-name').style.borderColor = 'rgba(196,82,122,.8)'; document.getElementById('r-name').focus(); return; }
-    document.getElementById('ty-name').textContent = n;
+    const name = document.getElementById('r-name').value.trim();
+    const side = document.getElementById('r-side').value;
+    const guests = document.getElementById('r-guests').value;
+    const events = document.getElementById('r-events').value;
+    const msg = document.getElementById('r-msg').value.trim();
+
+    if (!name) { 
+        document.getElementById('r-name').style.borderColor = 'rgba(196,82,122,.8)'; 
+        document.getElementById('r-name').focus(); 
+        return; 
+    }
+
+    // Google Sheets Distribution Strategy
+    const groomSheetURL = "YOUR_GROOM_WEB_APP_URL";
+    const brideSheetURL = "YOUR_BRIDE_WEB_APP_URL";
+    const targetURL = (side === "groom") ? groomSheetURL : brideSheetURL;
+
+    const formData = new FormData();
+    formData.append("Name", name);
+    formData.append("Attendance", attChoice === 'a' ? "Joyfully Accept" : "Decline");
+    formData.append("Guests", guests);
+    formData.append("Events", events);
+    formData.append("Message", msg);
+
+    // Asynchronous background deployment frame
+    if (targetURL !== "YOUR_GROOM_WEB_APP_URL") {
+        fetch(targetURL, { method: "POST", body: formData, mode: "no-cors" });
+    }
+
+    document.getElementById('ty-name').textContent = name;
     document.getElementById('rsvp-inner').style.display = 'none';
     document.getElementById('rsvp-thanks').style.display = 'block';
 }
 
-// ── ASYNCHRONOUS BLESSINGS INJECTION
+// ── ASYNCHRONOUS REAL-TIME BLESSINGS INJECTION
 function addBlessing() {
     const n = document.getElementById('blessName').value.trim();
     const t = document.getElementById('blessText').value.trim();
     if (!n || !t) return;
+    
     const wall = document.getElementById('blessWall');
     const card = document.createElement('div'); card.className = 'bless-card';
     card.style.opacity = '0'; card.style.transition = 'opacity .5s ease';
     card.innerHTML = `<p class="bless-txt">"${t}"</p><p class="bless-from">— ${n}</p>`;
+    
     const addCard = document.getElementById('addCard');
     if (wall && addCard) {
         wall.insertBefore(card, addCard);
@@ -220,4 +254,4 @@ function addBlessing() {
     document.getElementById('blessName').value = '';
     document.getElementById('blessText').value = '';
 }
-
+    

@@ -1,60 +1,55 @@
-// ── GLOBALLY INDEPENDENT OPEN ENVELOPE FUNCTION WITH MUSIC INITIATION
+// ── NATIVE ATTACHMENT GATEWAY FOR ENVELOPE (ZERO DELAY LOGIC)
 let opened = false;
 function openEnvelope() {
     if (opened) return; 
     opened = true;
     
-    const envWrap = document.getElementById('envWrap');
     const envScreen = document.getElementById('env-screen');
     const mainContent = document.getElementById('main');
+    const envWrap = document.getElementById('envWrap');
     
     if (envWrap) envWrap.classList.add('opening');
     
+    // Clear display blocks explicitly
     setTimeout(() => {
-        if (envScreen) envScreen.classList.add('gone');
-        if (mainContent) mainContent.classList.add('visible');
-        initAudio();
-        // Play drive music automatically on opening gesture
-        const audioTrack = document.getElementById('bgMusic');
-        if (audioTrack) {
-            audioTrack.play().catch(() => {
-                console.log("Audio gesture delay handled smoothly.");
-            });
+        if (envScreen) {
+            envScreen.style.opacity = '0';
+            envScreen.style.visibility = 'hidden';
+            envScreen.style.pointerEvents = 'none';
         }
-    }, 1500);
+        if (mainContent) {
+            mainContent.classList.add('visible');
+        }
+        initAudio();
+        
+        // Dynamic trigger for uploaded wedding-music.mp3 loop
+        const track = document.getElementById('bgMusic');
+        if (track) {
+            track.play().catch(err => console.log("Audio waiting for absolute click register."));
+        }
+    }, 1200);
 }
 
-// ── SAFE TRACKING LOOP WITH SELECTOR GUARDS
+// ── DESKTOP ONLY CURSOR TRACKING MATRIX (Prevents mobile crash)
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 const cur = document.getElementById('cur'), cr = document.getElementById('cur-ring');
-let mx = 0, my = 0, rx = 0, ry = 0;
 
-if (cur && cr) {
-    document.addEventListener('mousemove', e => { 
-        mx = e.clientX; 
-        my = e.clientY; 
-        cur.style.left = mx + 'px'; 
-        cur.style.top = my + 'px';
-    });
-    setInterval(() => { 
-        rx += (mx - rx) * .12; 
-        ry += (my - ry) * .12; 
-        cr.style.left = rx + 'px'; 
-        cr.style.top = ry + 'px';
-    }, 16);
+if (!isMobile && cur && cr) {
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cur.style.left = mx+'px'; cur.style.top = my+'px' });
+    setInterval(() => { rx += (mx - rx) * .12; ry += (my - ry) * .12; cr.style.left = rx+'px'; cr.style.top = ry+'px' }, 16);
+} else {
+    if (cur) cur.style.display = 'none';
+    if (cr) cr.style.display = 'none';
 }
 
 // ── AMBIENT STARFIELD RENDERER
 const sf = document.getElementById('stars');
 if (sf) {
-    for (let i = 0; i < 130; i++) {
+    for (let i = 0; i < 110; i++) {
         const s = document.createElement('div'); s.className = 'star';
-        const sz = Math.random() * 2.5 + .4;
+        const sz = Math.random() * 2 + .4;
         s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random() * 100}%;top:${Math.random() * 100}%;--d:${Math.random() * 4 + 2}s;--dl:-${Math.random() * 5}s`;
-        sf.appendChild(s);
-    }
-    for (let i = 0; i < 6; i++) {
-        const s = document.createElement('div'); s.className = 'shoot';
-        s.style.cssText = `left:${Math.random() * 50}%;top:${Math.random() * 45}%;--sd:${Math.random() * 4 + 5}s;--sdl:-${Math.random() * 9}s`;
         sf.appendChild(s);
     }
 }
@@ -80,33 +75,24 @@ if (sc) {
     grd.addColorStop(0, '#5a3800'); grd.addColorStop(.3, '#a06820'); grd.addColorStop(.55, '#c8940a'); grd.addColorStop(.8, '#a06820'); grd.addColorStop(1, '#5a3800');
     sx.fillStyle = grd; sx.fillRect(0, 0, 300, 170);
 
-    for (let x = 0; x < 300; x += 6) for (let y = 0; y < 170; y += 6) {
-        if (Math.random() > .6) { sx.fillStyle = 'rgba(0,0,0,.12)'; sx.beginPath(); sx.arc(x, y, 1, 0, Math.PI * 2); sx.fill(); }
-        if (Math.random() > .85) { sx.fillStyle = 'rgba(255,255,255,.08)'; sx.beginPath(); sx.arc(x, y, 1.5, 0, Math.PI * 2); sx.fill(); }
-    }
     sx.fillStyle = 'rgba(0,0,0,.3)';
     sx.font = 'bold 13px Cinzel,serif'; sx.textAlign = 'center';
     sx.fillText('✦  SCRATCH TO REVEAL  ✦', 150, 78);
-    sx.font = '11px Raleway,sans-serif'; sx.fillText('Rub your finger here', 150, 100);
 
     let scratching = false, done = false;
-    const total = 300 * 170;
-
     function gPos(e, c) {
         const r = c.getBoundingClientRect();
         if (e.touches && e.touches.length > 0) return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
         return { x: e.clientX - r.left, y: e.clientY - r.top };
     }
-
     function doScratch(x, y) {
         sx.globalCompositeOperation = 'destination-out';
         sx.beginPath(); sx.arc(x, y, 24, 0, Math.PI * 2); sx.fill();
         if (done) return;
         const d = sx.getImageData(0, 0, 300, 170).data;
         let cl = 0; for (let i = 3; i < d.length; i += 4) if (d[i] < 128) cl++;
-        if (cl / total > .5) { done = true; sx.clearRect(0, 0, 300, 170); document.getElementById('scratchDone').classList.add('show'); }
+        if (cl / (300*170) > .45) { done = true; sx.clearRect(0, 0, 300, 170); document.getElementById('scratchDone').classList.add('show'); }
     }
-
     sc.addEventListener('mousedown', e => { scratching = true; const p = gPos(e, sc); doScratch(p.x, p.y) });
     sc.addEventListener('mousemove', e => { if (!scratching) return; const p = gPos(e, sc); doScratch(p.x, p.y) });
     sc.addEventListener('mouseup', () => scratching = false);
@@ -115,47 +101,33 @@ if (sc) {
     sc.addEventListener('touchend', () => scratching = false);
 }
 
-// ── SYNTHETIC AUDIO SYNTHESIZER
+// ── SYNTHETIC AUDIO SYNTHESIZER FOR CLICKS
 let actx = null;
 function initAudio() {
     if (actx) return;
     try { actx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { }
 }
-
 function playTick() {
     if (!actx) return;
     try {
-        const o = actx.createOscillator(), g = actx.createGain(), f = actx.createBiquadFilter();
-        f.type = 'bandpass'; f.frequency.value = 1600; f.Q.value = 4;
-        o.type = 'square';
-        o.frequency.setValueAtTime(800, actx.currentTime);
-        o.frequency.exponentialRampToValueAtTime(350, actx.currentTime + .05);
-        g.gain.setValueAtTime(.16, actx.currentTime);
-        g.gain.exponentialRampToValueAtTime(.001, actx.currentTime + .08);
-        o.connect(f); f.connect(g); g.connect(actx.destination);
-        o.start(actx.currentTime); o.stop(actx.currentTime + .09);
+        const o = actx.createOscillator(), g = actx.createGain();
+        o.type = 'sine'; o.frequency.setValueAtTime(600, actx.currentTime);
+        g.gain.setValueAtTime(.05, actx.currentTime); g.gain.exponentialRampToValueAtTime(.001, actx.currentTime+.04);
+        o.connect(g); g.connect(actx.destination); o.start(); o.stop(actx.currentTime+.05);
     } catch (e) { }
 }
 
-// ── SYNCHRONIZED MINARET COUNTDOWN ENGINE
+// ── FIXED SYNC MINARET COUNTDOWN ENGINE (Targeting 15 Dec 2026 at 10:00 PM)
 let prevSec = -1;
 function tickAnim(id) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.classList.remove('tick');
-    void el.offsetWidth;
-    el.classList.add('tick');
+    const el = document.getElementById(id); if (!el) return;
+    el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick');
 }
-
 function updateCD() {
     const target = new Date('2026-12-15T22:00:00');
-    const now = new Date();
-    let diff = target - now;
+    const now = new Date(); let diff = target - now;
     if (diff <= 0) {
-        ['cd-d', 'cd-h', 'cd-m', 'cd-s'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) { el.style.fontSize = '1.2rem'; el.style.webkitTextFillColor = 'var(--g2)'; el.textContent = '00'; }
-        });
+        ['cd-d', 'cd-h', 'cd-m', 'cd-s'].forEach(id => { const el = document.getElementById(id); if (el) el.textContent = '00'; });
         return;
     }
     const d = Math.floor(diff / 86400000); diff -= d * 86400000;
@@ -163,71 +135,48 @@ function updateCD() {
     const m = Math.floor(diff / 60000); diff -= m * 60000;
     const s = Math.floor(diff / 1000);
     
-    const dEl = document.getElementById('cd-d');
-    const hEl = document.getElementById('cd-h');
-    const mEl = document.getElementById('cd-m');
-    const sEl = document.getElementById('cd-s');
-
+    const dEl = document.getElementById('cd-d'), hEl = document.getElementById('cd-h'), mEl = document.getElementById('cd-m'), sEl = document.getElementById('cd-s');
     if (dEl) dEl.textContent = String(d).padStart(2, '0');
     if (hEl) hEl.textContent = String(h).padStart(2, '0');
     if (mEl) mEl.textContent = String(m).padStart(2, '0');
     if (sEl) sEl.textContent = String(s).padStart(2, '0');
     
     if (s !== prevSec) {
-        prevSec = s;
-        tickAnim('cd-s'); playTick();
-        if (s === 59) { setTimeout(() => { tickAnim('cd-m'); playTick(); }, 900); }
-        if (s === 59 && m === 59) { setTimeout(() => { tickAnim('cd-h'); playTick(); }, 1800); }
-        if (s === 59 && m === 59 && h === 23) { setTimeout(() => { tickAnim('cd-d'); playTick(); }, 2700); }
+        prevSec = s; tickAnim('cd-s'); playTick();
+        if (s === 59) { setTimeout(() => { tickAnim('cd-m'); }, 900); }
+        if (s === 59 && m === 59) { setTimeout(() => { tickAnim('cd-h'); }, 1800); }
+        if (s === 59 && m === 59 && h === 23) { setTimeout(() => { tickAnim('cd-d'); }, 2700); }
     }
 }
 setInterval(updateCD, 1000); updateCD();
 
 // ── SCROLL INTERSECTION OBSERVER
-const ro = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: .1 });
+const ro = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: .05 });
 document.querySelectorAll('.rev,.ev-item').forEach(el => ro.observe(el));
-document.querySelectorAll('.ev-item').forEach((el, i) => { el.style.transitionDelay = `${i * .14}s`; });
 
-// ── RSVP DATA DISTRIBUTOR PIPELINE
+// ── RSVP AND GOOGLE SHEETS REDIRECTION INTERFACE
 let attChoice = '';
 function setAtt(v) {
     attChoice = v;
-    const btnA = document.getElementById('btn-a');
-    const btnD = document.getElementById('btn-d');
-    if (btnA) btnA.classList.toggle('on', v === 'a');
-    if (btnD) btnD.classList.toggle('on', v === 'd');
+    const btnA = document.getElementById('btn-a'), btnD = document.getElementById('btn-d');
+    if (btnA) btnA.classList.toggle('on', v === 'a'); if (btnD) btnD.classList.toggle('on', v === 'd');
 }
-
 function submitRSVP() {
     const name = document.getElementById('r-name').value.trim();
     const side = document.getElementById('r-side').value;
     const guests = document.getElementById('r-guests').value;
     const events = document.getElementById('r-events').value;
     const msg = document.getElementById('r-msg').value.trim();
+    if (!name) { document.getElementById('r-name').style.borderColor = 'rgba(196,82,122,.8)'; document.getElementById('r-name').focus(); return; }
 
-    if (!name) { 
-        document.getElementById('r-name').style.borderColor = 'rgba(196,82,122,.8)'; 
-        document.getElementById('r-name').focus(); 
-        return; 
-    }
-
-    // Google Sheets Distribution Strategy
-    const groomSheetURL = "YOUR_GROOM_WEB_APP_URL";
-    const brideSheetURL = "YOUR_BRIDE_WEB_APP_URL";
+    // Google Sheets Strategy Injection Point
+    const groomSheetURL = "YOUR_GROOM_APPS_SCRIPT_WEB_APP_URL";
+    const brideSheetURL = "YOUR_BRIDE_APPS_SCRIPT_WEB_APP_URL";
     const targetURL = (side === "groom") ? groomSheetURL : brideSheetURL;
 
-    const formData = new FormData();
-    formData.append("Name", name);
-    formData.append("Attendance", attChoice === 'a' ? "Joyfully Accept" : "Decline");
-    formData.append("Guests", guests);
-    formData.append("Events", events);
-    formData.append("Message", msg);
-
-    // Asynchronous background deployment frame
-    if (targetURL !== "YOUR_GROOM_WEB_APP_URL") {
-        fetch(targetURL, { method: "POST", body: formData, mode: "no-cors" });
+    if(targetURL.indexOf("YOUR_") === -1) {
+        const urlWithParams = `${targetURL}?Name=${encodeURIComponent(name)}&Attendance=${encodeURIComponent(attChoice==='a'?'Joyfully Accept':'Decline')}&Guests=${encodeURIComponent(guests)}&Events=${encodeURIComponent(events)}&Message=${encodeURIComponent(msg)}`;
+        fetch(urlWithParams, { method: "GET", mode: "no-cors" }).catch(err => console.log("Cross-Origin Sync Handled."));
     }
 
     document.getElementById('ty-name').textContent = name;
@@ -235,23 +184,15 @@ function submitRSVP() {
     document.getElementById('rsvp-thanks').style.display = 'block';
 }
 
-// ── ASYNCHRONOUS REAL-TIME BLESSINGS INJECTION
+// ── LOCAL DYNAMIC BLESSINGS GENERATOR
 function addBlessing() {
     const n = document.getElementById('blessName').value.trim();
     const t = document.getElementById('blessText').value.trim();
     if (!n || !t) return;
-    
-    const wall = document.getElementById('blessWall');
-    const card = document.createElement('div'); card.className = 'bless-card';
-    card.style.opacity = '0'; card.style.transition = 'opacity .5s ease';
+    const wall = document.getElementById('blessWall'), card = document.createElement('div'); card.className = 'bless-card';
     card.innerHTML = `<p class="bless-txt">"${t}"</p><p class="bless-from">— ${n}</p>`;
-    
     const addCard = document.getElementById('addCard');
-    if (wall && addCard) {
-        wall.insertBefore(card, addCard);
-        setTimeout(() => card.style.opacity = '1', 50);
-    }
-    document.getElementById('blessName').value = '';
-    document.getElementById('blessText').value = '';
-}
-    
+    if (wall && addCard) { wall.insertBefore(card, addCard); }
+    document.getElementById('blessName').value = ''; document.getElementById('blessText').value = '';
+        }
+                                                   

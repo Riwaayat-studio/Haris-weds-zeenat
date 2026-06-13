@@ -6,81 +6,104 @@ setInterval(() => { rx += (mx - rx) * .12; ry += (my - ry) * .12; cr.style.left 
 
 // ── AMBIENT STARFIELD RENDERER
 const sf = document.getElementById('stars');
-for (let i = 0; i < 130; i++) {
-    const s = document.createElement('div'); s.className = 'star';
-    const sz = Math.random() * 2.5 + .4;
-    s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random() * 100}%;top:${Math.random() * 100}%;--d:${Math.random() * 4 + 2}s;--dl:-${Math.random() * 5}s`;
-    sf.appendChild(s);
-}
-for (let i = 0; i < 6; i++) {
-    const s = document.createElement('div'); s.className = 'shoot';
-    s.style.cssText = `left:${Math.random() * 50}%;top:${Math.random() * 45}%;--sd:${Math.random() * 4 + 5}s;--sdl:-${Math.random() * 9}s`;
-    sf.appendChild(s);
+if (sf) {
+    for (let i = 0; i < 130; i++) {
+        const s = document.createElement('div'); s.className = 'star';
+        const sz = Math.random() * 2.5 + .4;
+        s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random() * 100}%;top:${Math.random() * 100}%;--d:${Math.random() * 4 + 2}s;--dl:-${Math.random() * 5}s`;
+        sf.appendChild(s);
+    }
+    for (let i = 0; i < 6; i++) {
+        const s = document.createElement('div'); s.className = 'shoot';
+        s.style.cssText = `left:${Math.random() * 50}%;top:${Math.random() * 45}%;--sd:${Math.random() * 4 + 5}s;--sdl:-${Math.random() * 9}s`;
+        sf.appendChild(s);
+    }
 }
 
 // ── FLUID PETAL GENERATOR
 const pc = document.getElementById('petals');
 const PE = ['🌸', '🌺', '✨', '💮', '🌹'];
-for (let i = 0; i < 14; i++) {
-    const p = document.createElement('div'); p.className = 'petal';
-    const px = (Math.random() * 180 - 90) + 'px';
-    p.style.cssText = `left:${Math.random() * 100}%;font-size:${Math.random() * .7 + .6}rem;--pd:${Math.random() * 9 + 7}s;--pdl:-${Math.random() * 12}s;--px:${px}`;
-    p.textContent = PE[Math.floor(Math.random() * PE.length)];
-    pc.appendChild(p);
+if (pc) {
+    for (let i = 0; i < 14; i++) {
+        const p = document.createElement('div'); p.className = 'petal';
+        const px = (Math.random() * 180 - 90) + 'px';
+        p.style.cssText = `left:${Math.random() * 100}%;font-size:${Math.random() * .7 + .6}rem;--pd:${Math.random() * 9 + 7}s;--pdl:-${Math.random() * 12}s;--px:${px}`;
+        p.textContent = PE[Math.floor(Math.random() * PE.length)];
+        pc.appendChild(p);
+    }
 }
 
-// ── GATEWAY ENVELOPE CONTROLLER
+// ── GATEWAY ENVELOPE CONTROLLER (GLOBAL INJECTION & EVENT LISTENERS)
 let opened = false;
-window.openEnvelope = function() {
-    if (opened) return; opened = true;
-    document.getElementById('envWrap').classList.add('opening');
+
+function openEnvelope() {
+    if (opened) return; 
+    opened = true;
+    
+    const envWrap = document.getElementById('envWrap');
+    const envScreen = document.getElementById('env-screen');
+    const mainContent = document.getElementById('main');
+    
+    if (envWrap) envWrap.classList.add('opening');
+    
     setTimeout(() => {
-        document.getElementById('env-screen').classList.add('gone');
-        document.getElementById('main').classList.add('visible');
+        if (envScreen) envScreen.classList.add('gone');
+        if (mainContent) mainContent.classList.add('visible');
         initAudio();
     }, 1500);
 }
 
+// Event hooks setup immediately upon content readiness
+document.addEventListener('DOMContentLoaded', () => {
+    const envelope = document.getElementById('envWrap');
+    if (envelope) {
+        envelope.addEventListener('click', openEnvelope);
+        envelope.addEventListener('touchstart', openEnvelope, { passive: true });
+    }
+});
+
 // ── CANVAS SCRATCH ENGINE
 const sc = document.getElementById('scratchC');
-const sx = sc.getContext('2d');
-const grd = sx.createLinearGradient(0, 0, 300, 170);
-grd.addColorStop(0, '#5a3800'); grd.addColorStop(.3, '#a06820'); grd.addColorStop(.55, '#c8940a'); grd.addColorStop(.8, '#a06820'); grd.addColorStop(1, '#5a3800');
-sx.fillStyle = grd; sx.fillRect(0, 0, 300, 170);
+if (sc) {
+    const sx = sc.getContext('2d');
+    const grd = sx.createLinearGradient(0, 0, 300, 170);
+    grd.addColorStop(0, '#5a3800'); grd.addColorStop(.3, '#a06820'); grd.addColorStop(.55, '#c8940a'); grd.addColorStop(.8, '#a06820'); grd.addColorStop(1, '#5a3800');
+    sx.fillStyle = grd; sx.fillRect(0, 0, 300, 170);
 
-for (let x = 0; x < 300; x += 6) for (let y = 0; y < 170; y += 6) {
-    if (Math.random() > .6) { sx.fillStyle = 'rgba(0,0,0,.12)'; sx.beginPath(); sx.arc(x, y, 1, 0, Math.PI * 2); sx.fill(); }
-    if (Math.random() > .85) { sx.fillStyle = 'rgba(255,255,255,.08)'; sx.beginPath(); sx.arc(x, y, 1.5, 0, Math.PI * 2); sx.fill(); }
+    for (let x = 0; x < 300; x += 6) for (let y = 0; y < 170; y += 6) {
+        if (Math.random() > .6) { sx.fillStyle = 'rgba(0,0,0,.12)'; sx.beginPath(); sx.arc(x, y, 1, 0, Math.PI * 2); sx.fill(); }
+        if (Math.random() > .85) { sx.fillStyle = 'rgba(255,255,255,.08)'; sx.beginPath(); sx.arc(x, y, 1.5, 0, Math.PI * 2); sx.fill(); }
+    }
+    sx.fillStyle = 'rgba(0,0,0,.3)';
+    sx.font = 'bold 13px Cinzel,serif'; sx.textAlign = 'center';
+    sx.fillText('✦  SCRATCH TO REVEAL  ✦', 150, 78);
+    sx.font = '11px Raleway,sans-serif'; sx.fillText('Rub your finger here', 150, 100);
+
+    let scratching = false, done = false;
+    const total = 300 * 170;
+
+    function gPos(e, c) {
+        const r = c.getBoundingClientRect();
+        if (e.touches && e.touches.length > 0) return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
+        return { x: e.clientX - r.left, y: e.clientY - r.top };
+    }
+
+    function doScratch(x, y) {
+        sx.globalCompositeOperation = 'destination-out';
+        sx.beginPath(); sx.arc(x, y, 24, 0, Math.PI * 2); sx.fill();
+        if (done) return;
+        const d = sx.getImageData(0, 0, 300, 170).data;
+        let cl = 0; for (let i = 3; i < d.length; i += 4) if (d[i] < 128) cl++;
+        if (cl / total > .5) { done = true; sx.clearRect(0, 0, 300, 170); document.getElementById('scratchDone').classList.add('show'); }
+    }
+
+    sc.addEventListener('mousedown', e => { scratching = true; const p = gPos(e, sc); doScratch(p.x, p.y) });
+    sc.addEventListener('mousemove', e => { if (!scratching) return; const p = gPos(e, sc); doScratch(p.x, p.y) });
+    sc.addEventListener('mouseup', () => scratching = false);
+    sc.addEventListener('touchstart', e => { e.preventDefault(); scratching = true; const p = gPos(e, sc); doScratch(p.x, p.y) }, { passive: false });
+    sc.addEventListener('touchmove', e => { e.preventDefault(); if (!scratching) return; const p = gPos(e, sc); doScratch(p.x, p.y) }, { passive: false });
+    sc.addEventListener('touchend', () => scratching = false);
 }
-sx.fillStyle = 'rgba(0,0,0,.3)';
-sx.font = 'bold 13px Cinzel,serif'; sx.textAlign = 'center';
-sx.fillText('✦  SCRATCH TO REVEAL  ✦', 150, 78);
-sx.font = '11px Raleway,sans-serif'; sx.fillText('Rub your finger here', 150, 100);
-
-let scratching = false, done = false;
-const total = 300 * 170;
-
-function gPos(e, c) {
-    const r = c.getBoundingClientRect();
-    if (e.touches) return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
-    return { x: e.clientX - r.left, y: e.clientY - r.top };
-}
-
-function doScratch(x, y) {
-    sx.globalCompositeOperation = 'destination-out';
-    sx.beginPath(); sx.arc(x, y, 24, 0, Math.PI * 2); sx.fill();
-    if (done) return;
-    const d = sx.getImageData(0, 0, 300, 170).data;
-    let cl = 0; for (let i = 3; i < d.length; i += 4) if (d[i] < 128) cl++;
-    if (cl / total > .5) { done = true; sx.clearRect(0, 0, 300, 170); document.getElementById('scratchDone').classList.add('show'); }
-}
-
-sc.addEventListener('mousedown', e => { scratching = true; const p = gPos(e, sc); doScratch(p.x, p.y) });
-sc.addEventListener('mousemove', e => { if (!scratching) return; const p = gPos(e, sc); doScratch(p.x, p.y) });
-sc.addEventListener('mouseup', () => scratching = false);
-sc.addEventListener('touchstart', e => { e.preventDefault(); scratching = true; const p = gPos(e, sc); doScratch(p.x, p.y) }, { passive: false });
-sc.addEventListener('touchmove', e => { e.preventDefault(); if (!scratching) return; const p = gPos(e, sc); doScratch(p.x, p.y) }, { passive: false });
-sc.addEventListener('touchend', () => scratching = false);
 
 // ── SYNTHETIC AUDIO SYNTHESIZER
 let actx = null;
@@ -132,10 +155,15 @@ function updateCD() {
     const m = Math.floor(diff / 60000); diff -= m * 60000;
     const s = Math.floor(diff / 1000);
     
-    document.getElementById('cd-d').textContent = String(d).padStart(2, '0');
-    document.getElementById('cd-h').textContent = String(h).padStart(2, '0');
-    document.getElementById('cd-m').textContent = String(m).padStart(2, '0');
-    document.getElementById('cd-s').textContent = String(s).padStart(2, '0');
+    const dEl = document.getElementById('cd-d');
+    const hEl = document.getElementById('cd-h');
+    const mEl = document.getElementById('cd-m');
+    const sEl = document.getElementById('cd-s');
+
+    if (dEl) dEl.textContent = String(d).padStart(2, '0');
+    if (hEl) hEl.textContent = String(h).padStart(2, '0');
+    if (mEl) mEl.textContent = String(m).padStart(2, '0');
+    if (sEl) sEl.textContent = String(s).padStart(2, '0');
     
     if (s !== prevSec) {
         prevSec = s;
@@ -158,8 +186,10 @@ document.querySelectorAll('.ev-item').forEach((el, i) => { el.style.transitionDe
 let attChoice = '';
 function setAtt(v) {
     attChoice = v;
-    document.getElementById('btn-a').classList.toggle('on', v === 'a');
-    document.getElementById('btn-d').classList.toggle('on', v === 'd');
+    const btnA = document.getElementById('btn-a');
+    const btnD = document.getElementById('btn-d');
+    if (btnA) btnA.classList.toggle('on', v === 'a');
+    if (btnD) btnD.classList.toggle('on', v === 'd');
 }
 
 function submitRSVP() {
@@ -179,9 +209,12 @@ function addBlessing() {
     const card = document.createElement('div'); card.className = 'bless-card';
     card.style.opacity = '0'; card.style.transition = 'opacity .5s ease';
     card.innerHTML = `<p class="bless-txt">"${t}"</p><p class="bless-from">— ${n}</p>`;
-    wall.insertBefore(card, document.getElementById('addCard'));
-    setTimeout(() => card.style.opacity = '1', 50);
+    const addCard = document.getElementById('addCard');
+    if (wall && addCard) {
+        wall.insertBefore(card, addCard);
+        setTimeout(() => card.style.opacity = '1', 50);
+    }
     document.getElementById('blessName').value = '';
     document.getElementById('blessText').value = '';
-                                      }
-  
+                         }
+        

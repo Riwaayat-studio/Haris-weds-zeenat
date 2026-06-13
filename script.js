@@ -29,7 +29,7 @@ for (let i = 0; i < 14; i++) {
     pc.appendChild(p);
 }
 
-── GATEWAY ENVELOPE CONTROLLER
+//── GATEWAY ENVELOPE CONTROLLER
 let opened = false;
 window.openEnvelope = function() {
     if (opened) return; opened = true;

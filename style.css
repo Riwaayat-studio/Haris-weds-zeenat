@@ -15,7 +15,7 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--cream);font-family:'Cormorant Garamond',serif;overflow-x:hidden}
 
-/* ══ CURSOR DESKTOP MATRICES ══ */
+/* ══ CURSOR STYLING ══ */
 #cur{position:fixed;width:10px;height:10px;background:var(--g2);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);mix-blend-mode:difference}
 #cur-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(200,169,110,.45);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:all .1s ease}
 
@@ -42,7 +42,7 @@ body{background:var(--bg);color:var(--cream);font-family:'Cormorant Garamond',se
 
 .env-bismi{
   font-family:'Lateef', 'Amiri', serif;
-  font-size: clamp(2.4rem, 6vw, 3.8rem);
+  font-size: clamp(2.6rem, 7vw, 4.2rem);
   font-weight: 700;
   background: linear-gradient(135deg, #FFF, var(--g2), var(--g3));
   -webkit-background-clip: text;
@@ -52,7 +52,8 @@ body{background:var(--bg);color:var(--cream);font-family:'Cormorant Garamond',se
   text-align: center;
 }
 
-.env-wrap{position:relative;width:min(300px,78vw);cursor:pointer;filter:drop-shadow(0 0 50px rgba(26,77,53,.5))}
+/* GADDAR POINTER-EVENTS FIXED HERE */
+.env-wrap{position:relative;width:min(300px,78vw);cursor:pointer !important;filter:drop-shadow(0 0 50px rgba(26,77,53,.5));pointer-events: auto !important;}
 .env-body{width:100%;aspect-ratio:1.6/1;background:linear-gradient(145deg,#0d2b1f,#1a4d35,#0a1e14);border:1px solid rgba(200,169,110,.3);border-radius:3px;position:relative}
 .env-wrap.opening .env-flap{transform:rotateX(-175deg) translateY(-12px)}
 .env-flap{position:absolute;top:0;left:0;right:0;height:55%;background:linear-gradient(160deg,#112a1c,#0d2218);border-bottom:1px solid rgba(200,169,110,.25);clip-path:polygon(0 0,100% 0,50% 88%);transform-origin:top center;transition:transform .7s ease;z-index:2}
@@ -93,13 +94,13 @@ body{background:var(--bg);color:var(--cream);font-family:'Cormorant Garamond',se
 .sec-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.5rem,4vw,2.6rem);font-weight:400;background:linear-gradient(135deg,var(--g1) 0%,var(--g2) 40%,var(--g3) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;margin-bottom:.5rem}
 .sec-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(.9rem,1.8vw,1.1rem);color:var(--muted);text-align:center;max-width:480px;line-height:2;margin-bottom:2rem}
 
-/* ══ MINARET STABILIZATION MATRIX (Perfect Center Alignment) ══ */
+/* ══ MINARET STABILIZATION MATRIX (Perfect Core Center Dynamic) ══ */
 #cd-sect{background:radial-gradient(ellipse at 50% 100%,rgba(13,43,31,.8) 0%,transparent 65%),linear-gradient(180deg,var(--bg) 0%,var(--bg2) 50%,var(--bg) 100%);border-top:1px solid rgba(200,169,110,.07);border-bottom:1px solid rgba(200,169,110,.07);overflow:hidden;padding-bottom:5rem}
 .mn-row{display:flex;align-items:flex-end;justify-content:center;gap:clamp(.5rem,2vw,1.8rem);margin-top:3rem;flex-wrap:wrap;position:relative;z-index:1}
 .mn-unit{display:flex;flex-direction:column;align-items:center;position:relative}
 .mn-svg-wrap{position:relative}
 
-/* Direct coordinate locks matching bounding box of second illumination area */
+/* Fixed coordinates to perfectly center align strings inside 2nd glow windows */
 .mn-badge{position:absolute;left:50%;transform:translateX(-50%);bottom:43%;pointer-events:none;text-align:center;width:80px}
 .mn-badge-tall{position:absolute;left:50%;transform:translateX(-50%);bottom:43%;pointer-events:none;text-align:center;width:80px}
 
@@ -133,14 +134,14 @@ body{background:var(--bg);color:var(--cream);font-family:'Cormorant Garamond',se
 .ev-venue{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.85rem;color:rgba(251,245,230,.4);line-height:1.5}
 .map-btn{display:inline-flex;align-items:center;gap:.35rem;font-family:'Cinzel',serif;font-size:.5rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;background:linear-gradient(135deg,var(--g3),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;border:1px solid rgba(200,169,110,.2);border-radius:2px;padding:.45rem .85rem;text-decoration:none;transition:all .3s ease}
 
-/* ══ BLESSINGS SCROLL ══ */
+/* ══ INTERACTIVE BLESSINGS WALL ══ */
 #bless-sect{background:radial-gradient(ellipse at center,rgba(13,43,31,.3) 0%,transparent 70%)}
 .bless-scroll{display:flex;gap:1rem;overflow-x:auto;padding:1rem .5rem 1.5rem;max-width:840px;width:100%;scrollbar-width:thin;scrollbar-color:rgba(200,169,110,.2) transparent}
 .bless-card{flex-shrink:0;width:210px;background:rgba(255,255,255,.025);border:1px solid rgba(200,169,110,.13);border-radius:4px;padding:1.2rem;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,0.25)}
 .bless-txt{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.9rem;color:var(--muted);line-height:1.75;margin-bottom:.7rem}
 .bless-from{font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;background:linear-gradient(135deg,var(--g2),var(--g3));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 
-/* ══ RSVP CONTROL BLOCKS ══ */
+/* ══ FORM STRUCTURES ══ */
 #rsvp-sect{background:radial-gradient(ellipse at center,rgba(26,77,53,.12) 0%,transparent 65%)}
 .rsvp-card{width:100%;max-width:520px;background:rgba(255,255,255,.02);border:1px solid rgba(200,169,110,.18);border-radius:6px;padding:3rem 2.5rem;margin-top:2rem}
 .fld{margin-bottom:1.4rem}
@@ -174,4 +175,4 @@ footer{position:relative;z-index:10;text-align:center;padding:5rem 2rem 3rem;bor
   .map-btn{grid-column:2;margin-top:.4rem;width:fit-content}
   .rsvp-card{padding:2rem 1.2rem}
   .mn-row{gap:.4rem}
-                                                                         }
+                                      }

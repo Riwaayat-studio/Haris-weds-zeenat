@@ -13,9 +13,9 @@
   --muted:     rgba(251,245,230,0.5);
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--cream);font-family:'Cormorant Garamond',serif;overflow-x:hidden;cursor:none}
+body{background:var(--bg);color:var(--cream);font-family:'Cormorant Garamond',serif;overflow-x:hidden}
 
-/* ══ CURSOR ══ */
+/* ══ CURSOR INTERACTION (MOBILE RELEGATED) ══ */
 #cur{position:fixed;width:10px;height:10px;background:var(--g2);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);mix-blend-mode:difference}
 #cur-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(200,169,110,.45);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:all .1s ease}
 
@@ -38,8 +38,21 @@ body{background:var(--bg);color:var(--cream);font-family:'Cormorant Garamond',se
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   transition:opacity 1.2s ease,visibility 1.2s ease;
 }
-#env-screen.gone{opacity:0;visibility:hidden}
-.env-bismi{font-family:'Amiri',serif;font-size:clamp(1rem,3vw,1.6rem);color:var(--g2);letter-spacing:.08em;margin-bottom:2.5rem;text-align:center}
+#env-screen.gone{opacity:0;visibility:hidden;pointer-events:none}
+
+/* Upgraded Royal Arabic Font Settings */
+.env-bismi{
+  font-family:'Lateef', 'Amiri', serif;
+  font-size: clamp(2.4rem, 6vw, 3.8rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, #FFF, var(--g2), var(--g3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(200,169,110,0.3);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
 .env-wrap{position:relative;width:min(300px,78vw);cursor:pointer;filter:drop-shadow(0 0 50px rgba(26,77,53,.5))}
 .env-body{width:100%;aspect-ratio:1.6/1;background:linear-gradient(145deg,#0d2b1f,#1a4d35,#0a1e14);border:1px solid rgba(200,169,110,.3);border-radius:3px;position:relative}
 .env-wrap.opening .env-flap{transform:rotateX(-175deg) translateY(-12px)}
@@ -81,23 +94,20 @@ body{background:var(--bg);color:var(--cream);font-family:'Cormorant Garamond',se
 .sec-title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.5rem,4vw,2.6rem);font-weight:400;background:linear-gradient(135deg,var(--g1) 0%,var(--g2) 40%,var(--g3) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;margin-bottom:.5rem}
 .sec-desc{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(.9rem,1.8vw,1.1rem);color:var(--muted);text-align:center;max-width:480px;line-height:2;margin-bottom:2rem}
 
-/* ══ MINARET POSITION FIX MATRIX ══ */
+/* ══ MINARET POSITION MATRIX (Golden Area Center Fix) ══ */
 #cd-sect{background:radial-gradient(ellipse at 50% 100%,rgba(13,43,31,.8) 0%,transparent 65%),linear-gradient(180deg,var(--bg) 0%,var(--bg2) 50%,var(--bg) 100%);border-top:1px solid rgba(200,169,110,.07);border-bottom:1px solid rgba(200,169,110,.07);overflow:hidden;padding-bottom:5rem}
 .mn-row{display:flex;align-items:flex-end;justify-content:center;gap:clamp(.5rem,2vw,1.8rem);margin-top:3rem;flex-wrap:wrap;position:relative;z-index:1}
 .mn-unit{display:flex;flex-direction:column;align-items:center;position:relative}
-.mn-svg-wrap{position:relative;filter:drop-shadow(0 0 20px rgba(200,169,110,.18))}
+.mn-svg-wrap{position:relative}
 
-/* Precise center positioning matching middle window box bounds */
-.mn-badge{position:absolute;left:50%;transform:translateX(-50%);top:56%;pointer-events:none;text-align:center;width:80px}
-.mn-badge-tall{position:absolute;left:50%;transform:translateX(-50%);top:54%;pointer-events:none;text-align:center;width:80px}
+/* Fixed coordinates to perfectly center align strings inside 2nd glow windows */
+.mn-badge{position:absolute;left:50%;transform:translateX(-50%);bottom:43%;pointer-events:none;text-align:center;width:80px}
+.mn-badge-tall{position:absolute;left:50%;transform:translateX(-50%);bottom:43%;pointer-events:none;text-align:center;width:80px}
 
-.mn-num{display:block;font-family:'Cinzel Decorative',serif;font-size:clamp(1.3rem,3.2vw,1.9rem);font-weight:700;background:linear-gradient(180deg,var(--g1) 0%,var(--g2) 50%,var(--g3) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 10px rgba(200,169,110,.6));line-height:1}
+.mn-num{display:block;font-family:'Cinzel Decorative',serif;font-size:clamp(1.4rem,3.4vw,2.1rem);font-weight:700;background:linear-gradient(180deg,var(--g1) 0%,var(--g2) 50%,var(--g3) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 10px rgba(200,169,110,.6));line-height:1}
 .mn-num.tick{animation:numTick .2s ease}
-@keyframes numTick{0%{transform:scale(1.25)}100%{transform:scale(1)}}
+@keyframes numTick{0%{transform:scale(1.2)}100%{transform:scale(1)}}
 .mn-lbl{font-family:'Cinzel',serif;font-size:clamp(.5rem,.85vw,.65rem);font-weight:600;letter-spacing:.45em;text-transform:uppercase;background:linear-gradient(135deg,var(--g2),var(--g3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-top:.7rem;text-align:center}
-@keyframes lamp{0%,100%{opacity:.45}40%{opacity:1}70%{opacity:.7}}
-@keyframes crescent{0%,100%{filter:drop-shadow(0 0 4px rgba(200,169,110,.4))}50%{filter:drop-shadow(0 0 14px rgba(200,169,110,.95))}}
-@keyframes crescent-fast{0%,100%{filter:drop-shadow(0 0 6px rgba(200,169,110,.5))}50%{filter:drop-shadow(0 0 20px rgba(200,169,110,1))}}
 
 /* ══ SCRATCH MECHANISM ══ */
 #scratch-sect{background:radial-gradient(ellipse at center,rgba(13,43,31,.25) 0%,transparent 70%)}
@@ -122,8 +132,7 @@ body{background:var(--bg);color:var(--cream);font-family:'Cormorant Garamond',se
 .ev-name{font-family:'Cinzel',serif;font-size:clamp(.9rem,2vw,1.05rem);font-weight:600;background:linear-gradient(135deg,var(--g1),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:.25rem}
 .ev-date{font-family:'Raleway',sans-serif;font-size:.6rem;font-weight:300;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:.2rem}
 .ev-venue{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:.85rem;color:rgba(251,245,230,.4);line-height:1.5}
-.map-btn{display:inline-flex;align-items:center;gap:.35rem;font-family:'Cinzel',serif;font-size:.5rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;background:linear-gradient(135deg,var(--g3),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;border:1px solid rgba(200,169,110,.2);border-radius:2px;padding Kent:.45rem .85rem;text-decoration:none;transition:all .3s ease}
-.map-btn:hover{border-color:var(--g3);background:rgba(200,169,110,.08)}
+.map-btn{display:inline-flex;align-items:center;gap:.35rem;font-family:'Cinzel',serif;font-size:.5rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;background:linear-gradient(135deg,var(--g3),var(--g2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;border:1px solid rgba(200,169,110,.2);border-radius:2px;padding:.45rem .85rem;text-decoration:none;transition:all .3s ease}
 
 /* ══ INTERACTIVE BLESSINGS WALL ══ */
 #bless-sect{background:radial-gradient(ellipse at center,rgba(13,43,31,.3) 0%,transparent 70%)}
@@ -166,4 +175,5 @@ footer{position:relative;z-index:10;text-align:center;padding:5rem 2rem 3rem;bor
   .map-btn{grid-column:2;margin-top:.4rem;width:fit-content}
   .rsvp-card{padding:2rem 1.2rem}
   .mn-row{gap:.4rem}
-}
+         }
+           

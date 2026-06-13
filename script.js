@@ -1,5 +1,6 @@
-// ── NATIVE ATTACHMENT GATEWAY FOR ENVELOPE (ZERO DELAY LOGIC)
+// ── MASTER EVENT ATTACHMENT REGISTER (DOM DRIVEN ENVELOPE CONTROLLER)
 let opened = false;
+
 function openEnvelope() {
     if (opened) return; 
     opened = true;
@@ -10,7 +11,6 @@ function openEnvelope() {
     
     if (envWrap) envWrap.classList.add('opening');
     
-    // Clear display blocks explicitly
     setTimeout(() => {
         if (envScreen) {
             envScreen.style.opacity = '0';
@@ -22,15 +22,24 @@ function openEnvelope() {
         }
         initAudio();
         
-        // Dynamic trigger for uploaded wedding-music.mp3 loop
+        // Local path wedding-music.mp3 loop initialization
         const track = document.getElementById('bgMusic');
         if (track) {
-            track.play().catch(err => console.log("Audio waiting for absolute click register."));
+            track.play().catch(err => console.log("Audio waiting for thread clearance."));
         }
     }, 1200);
 }
 
-// ── DESKTOP ONLY CURSOR TRACKING MATRIX (Prevents mobile crash)
+// Native event fallback mounting strategy
+document.addEventListener('DOMContentLoaded', () => {
+    const envelope = document.getElementById('envWrap');
+    if (envelope) {
+        envelope.addEventListener('click', openEnvelope);
+        envelope.addEventListener('touchstart', openEnvelope, { passive: true });
+    }
+});
+
+// ── DESKTOP ONLY CURSOR LOOP
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 const cur = document.getElementById('cur'), cr = document.getElementById('cur-ring');
 
@@ -43,7 +52,7 @@ if (!isMobile && cur && cr) {
     if (cr) cr.style.display = 'none';
 }
 
-// ── AMBIENT STARFIELD RENDERER
+// ── STARFIELD ENGINE
 const sf = document.getElementById('stars');
 if (sf) {
     for (let i = 0; i < 110; i++) {
@@ -54,7 +63,7 @@ if (sf) {
     }
 }
 
-// ── FLUID PETAL GENERATOR
+// ── PETAL ENGINE
 const pc = document.getElementById('petals');
 const PE = ['🌸', '🌺', '✨', '💮', '🌹'];
 if (pc) {
@@ -67,7 +76,7 @@ if (pc) {
     }
 }
 
-// ── CANVAS SCRATCH ENGINE
+// ── CANVAS SCRATCH CARD MATRIX
 const sc = document.getElementById('scratchC');
 if (sc) {
     const sx = sc.getContext('2d');
@@ -101,7 +110,7 @@ if (sc) {
     sc.addEventListener('touchend', () => scratching = false);
 }
 
-// ── SYNTHETIC AUDIO SYNTHESIZER FOR CLICKS
+// ── SYNTHETIC CLICK FEEDBACK AUDIO
 let actx = null;
 function initAudio() {
     if (actx) return;
@@ -117,7 +126,7 @@ function playTick() {
     } catch (e) { }
 }
 
-// ── FIXED SYNC MINARET COUNTDOWN ENGINE (Targeting 15 Dec 2026 at 10:00 PM)
+// ── HIGH PRECISION COUNTDOWN ENGINE
 let prevSec = -1;
 function tickAnim(id) {
     const el = document.getElementById(id); if (!el) return;
@@ -150,11 +159,11 @@ function updateCD() {
 }
 setInterval(updateCD, 1000); updateCD();
 
-// ── SCROLL INTERSECTION OBSERVER
+// ── SCROLL ANIMATION INTERSECTION OBSERVER
 const ro = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: .05 });
 document.querySelectorAll('.rev,.ev-item').forEach(el => ro.observe(el));
 
-// ── RSVP AND GOOGLE SHEETS REDIRECTION INTERFACE
+// ── RSVP PROCESSING AND ROUTING INTERFACE
 let attChoice = '';
 function setAtt(v) {
     attChoice = v;
@@ -169,14 +178,13 @@ function submitRSVP() {
     const msg = document.getElementById('r-msg').value.trim();
     if (!name) { document.getElementById('r-name').style.borderColor = 'rgba(196,82,122,.8)'; document.getElementById('r-name').focus(); return; }
 
-    // Google Sheets Strategy Injection Point
     const groomSheetURL = "YOUR_GROOM_APPS_SCRIPT_WEB_APP_URL";
     const brideSheetURL = "YOUR_BRIDE_APPS_SCRIPT_WEB_APP_URL";
     const targetURL = (side === "groom") ? groomSheetURL : brideSheetURL;
 
     if(targetURL.indexOf("YOUR_") === -1) {
         const urlWithParams = `${targetURL}?Name=${encodeURIComponent(name)}&Attendance=${encodeURIComponent(attChoice==='a'?'Joyfully Accept':'Decline')}&Guests=${encodeURIComponent(guests)}&Events=${encodeURIComponent(events)}&Message=${encodeURIComponent(msg)}`;
-        fetch(urlWithParams, { method: "GET", mode: "no-cors" }).catch(err => console.log("Cross-Origin Sync Handled."));
+        fetch(urlWithParams, { method: "GET", mode: "no-cors" }).catch(err => console.log("Cross-Origin Processed smoothly."));
     }
 
     document.getElementById('ty-name').textContent = name;
@@ -184,7 +192,7 @@ function submitRSVP() {
     document.getElementById('rsvp-thanks').style.display = 'block';
 }
 
-// ── LOCAL DYNAMIC BLESSINGS GENERATOR
+// ── ASYNCHRONOUS LOCAL BLESSINGS MOUNT
 function addBlessing() {
     const n = document.getElementById('blessName').value.trim();
     const t = document.getElementById('blessText').value.trim();
@@ -195,4 +203,4 @@ function addBlessing() {
     if (wall && addCard) { wall.insertBefore(card, addCard); }
     document.getElementById('blessName').value = ''; document.getElementById('blessText').value = '';
         }
-                                                   
+            

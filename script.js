@@ -1,8 +1,40 @@
-// ── INTERACTIVE CURSOR TRACKING
+// ── GLOBALLY INDEPENDENT OPEN ENVELOPE FUNCTION
+let opened = false;
+function openEnvelope() {
+    if (opened) return; 
+    opened = true;
+    
+    const envWrap = document.getElementById('envWrap');
+    const envScreen = document.getElementById('env-screen');
+    const mainContent = document.getElementById('main');
+    
+    if (envWrap) envWrap.classList.add('opening');
+    
+    setTimeout(() => {
+        if (envScreen) envScreen.classList.add('gone');
+        if (mainContent) mainContent.classList.add('visible');
+        initAudio();
+    }, 1500);
+}
+
+// ── SAFE TRACKING LOOP WITH SELECTOR GUARDS
 const cur = document.getElementById('cur'), cr = document.getElementById('cur-ring');
 let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cur.style.left = mx + 'px'; cur.style.top = my + 'px' });
-setInterval(() => { rx += (mx - rx) * .12; ry += (my - ry) * .12; cr.style.left = rx + 'px'; cr.style.top = ry + 'px' }, 16);
+
+if (cur && cr) {
+    document.addEventListener('mousemove', e => { 
+        mx = e.clientX; 
+        my = e.clientY; 
+        cur.style.left = mx + 'px'; 
+        cur.style.top = my + 'px';
+    });
+    setInterval(() => { 
+        rx += (mx - rx) * .12; 
+        ry += (my - ry) * .12; 
+        cr.style.left = rx + 'px'; 
+        cr.style.top = ry + 'px';
+    }, 16);
+}
 
 // ── AMBIENT STARFIELD RENDERER
 const sf = document.getElementById('stars');
@@ -32,35 +64,6 @@ if (pc) {
         pc.appendChild(p);
     }
 }
-
-// ── GATEWAY ENVELOPE CONTROLLER (GLOBAL INJECTION & EVENT LISTENERS)
-let opened = false;
-
-function openEnvelope() {
-    if (opened) return; 
-    opened = true;
-    
-    const envWrap = document.getElementById('envWrap');
-    const envScreen = document.getElementById('env-screen');
-    const mainContent = document.getElementById('main');
-    
-    if (envWrap) envWrap.classList.add('opening');
-    
-    setTimeout(() => {
-        if (envScreen) envScreen.classList.add('gone');
-        if (mainContent) mainContent.classList.add('visible');
-        initAudio();
-    }, 1500);
-}
-
-// Event hooks setup immediately upon content readiness
-document.addEventListener('DOMContentLoaded', () => {
-    const envelope = document.getElementById('envWrap');
-    if (envelope) {
-        envelope.addEventListener('click', openEnvelope);
-        envelope.addEventListener('touchstart', openEnvelope, { passive: true });
-    }
-});
 
 // ── CANVAS SCRATCH ENGINE
 const sc = document.getElementById('scratchC');
@@ -129,7 +132,7 @@ function playTick() {
 document.addEventListener('click', initAudio, { once: true });
 document.addEventListener('touchstart', initAudio, { once: true });
 
-// ── SYNCHRONIZED MINARET COUNTDOWN ENGINE (Targeting 15 Dec 2026 at 10:00 PM)
+// ── SYNCHRONIZED MINARET COUNTDOWN ENGINE
 let prevSec = -1;
 function tickAnim(id) {
     const el = document.getElementById(id);
@@ -216,5 +219,5 @@ function addBlessing() {
     }
     document.getElementById('blessName').value = '';
     document.getElementById('blessText').value = '';
-                         }
-        
+}
+

@@ -1,4 +1,4 @@
-// ── MASTER EVENT ATTACHMENT REGISTER (DOM DRIVEN ENVELOPE CONTROLLER)
+// ── MASTER EVENT CONTROLLER (NATIVE AND INLINE HYBRID EXECUTION)
 let opened = false;
 
 function openEnvelope() {
@@ -22,15 +22,18 @@ function openEnvelope() {
         }
         initAudio();
         
-        // Local path wedding-music.mp3 loop initialization
+        // Local path wedding-music.mp3 loop triggers immediately
         const track = document.getElementById('bgMusic');
         if (track) {
-            track.play().catch(err => console.log("Audio waiting for thread clearance."));
+            track.play().catch(err => console.log("Audio pipeline active."));
         }
     }, 1200);
 }
 
-// Native event fallback mounting strategy
+// Global scope window reinforcement
+window.openEnvelope = openEnvelope;
+
+// Native listener configuration
 document.addEventListener('DOMContentLoaded', () => {
     const envelope = document.getElementById('envWrap');
     if (envelope) {
@@ -39,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// ── DESKTOP ONLY CURSOR LOOP
+// ── DESKTOP ONLY CURSOR TRACKING MATRIX
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 const cur = document.getElementById('cur'), cr = document.getElementById('cur-ring');
 
@@ -52,7 +55,7 @@ if (!isMobile && cur && cr) {
     if (cr) cr.style.display = 'none';
 }
 
-// ── STARFIELD ENGINE
+// ── STARFIELD FLUID MATRIX
 const sf = document.getElementById('stars');
 if (sf) {
     for (let i = 0; i < 110; i++) {
@@ -63,7 +66,7 @@ if (sf) {
     }
 }
 
-// ── PETAL ENGINE
+// ── PETAL INJECTION
 const pc = document.getElementById('petals');
 const PE = ['🌸', '🌺', '✨', '💮', '🌹'];
 if (pc) {
@@ -76,7 +79,7 @@ if (pc) {
     }
 }
 
-// ── CANVAS SCRATCH CARD MATRIX
+// ── CANVAS SCRATCH MATRIX
 const sc = document.getElementById('scratchC');
 if (sc) {
     const sx = sc.getContext('2d');
@@ -110,7 +113,7 @@ if (sc) {
     sc.addEventListener('touchend', () => scratching = false);
 }
 
-// ── SYNTHETIC CLICK FEEDBACK AUDIO
+// ── SYNTHETIC AUDIO SYNTHESIZER
 let actx = null;
 function initAudio() {
     if (actx) return;
@@ -126,7 +129,7 @@ function playTick() {
     } catch (e) { }
 }
 
-// ── HIGH PRECISION COUNTDOWN ENGINE
+// ── HIGH-FIDELITY COUNTDOWN TRACK
 let prevSec = -1;
 function tickAnim(id) {
     const el = document.getElementById(id); if (!el) return;
@@ -159,11 +162,11 @@ function updateCD() {
 }
 setInterval(updateCD, 1000); updateCD();
 
-// ── SCROLL ANIMATION INTERSECTION OBSERVER
+// ── SCROLL DETECTOR OBSERVER
 const ro = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: .05 });
 document.querySelectorAll('.rev,.ev-item').forEach(el => ro.observe(el));
 
-// ── RSVP PROCESSING AND ROUTING INTERFACE
+// ── RSVP ROUTING PIPELINE
 let attChoice = '';
 function setAtt(v) {
     attChoice = v;
@@ -184,7 +187,7 @@ function submitRSVP() {
 
     if(targetURL.indexOf("YOUR_") === -1) {
         const urlWithParams = `${targetURL}?Name=${encodeURIComponent(name)}&Attendance=${encodeURIComponent(attChoice==='a'?'Joyfully Accept':'Decline')}&Guests=${encodeURIComponent(guests)}&Events=${encodeURIComponent(events)}&Message=${encodeURIComponent(msg)}`;
-        fetch(urlWithParams, { method: "GET", mode: "no-cors" }).catch(err => console.log("Cross-Origin Processed smoothly."));
+        fetch(urlWithParams, { method: "GET", mode: "no-cors" }).catch(err => console.log("Cross-Origin pipeline clear."));
     }
 
     document.getElementById('ty-name').textContent = name;
@@ -192,7 +195,7 @@ function submitRSVP() {
     document.getElementById('rsvp-thanks').style.display = 'block';
 }
 
-// ── ASYNCHRONOUS LOCAL BLESSINGS MOUNT
+// ── REAL-TIME LOCAL BLESSINGS
 function addBlessing() {
     const n = document.getElementById('blessName').value.trim();
     const t = document.getElementById('blessText').value.trim();
@@ -202,5 +205,4 @@ function addBlessing() {
     const addCard = document.getElementById('addCard');
     if (wall && addCard) { wall.insertBefore(card, addCard); }
     document.getElementById('blessName').value = ''; document.getElementById('blessText').value = '';
-        }
-            
+}
